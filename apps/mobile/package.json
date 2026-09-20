@@ -4,7 +4,23 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "echo 'Install Expo in this app when you are ready: npx create-expo-app . --template blank-typescript'",
-    "build": "echo 'Expo scaffold — not part of the Vercel web build'"
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "build": "echo 'Expo app — skip on Vercel web build'"
+  },
+  "dependencies": {
+    "expo": "~53.0.22",
+    "expo-constants": "~17.1.7",
+    "expo-status-bar": "~2.2.3",
+    "react": "19.0.0",
+    "react-native": "0.79.5",
+    "react-native-webview": "13.13.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@types/react": "^19.1.12",
+    "typescript": "~5.8.3"
   }
 }

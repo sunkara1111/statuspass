@@ -13,5 +13,11 @@
   "devDependencies": {
     "turbo": "^2.5.6",
     "typescript": "^5.9.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "^19.1.12",
+      "@types/react-dom": "^19.1.9"
+    }
   }
 }

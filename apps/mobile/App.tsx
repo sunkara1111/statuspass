@@ -1,256 +1,166 @@
 import { useMemo, useState } from "react";
+import Constants from "expo-constants";
+import { StatusBar } from "expo-status-bar";
 import {
+  ActivityIndicator,
   Pressable,
   SafeAreaView,
-  ScrollView,
-  StatusBar,
+  StyleSheet,
   Text,
-  TextInput,
   View,
 } from "react-native";
+import { WebView } from "react-native-webview";
+import { OfflineOrganizer } from "./OfflineOrganizer";
 
 const TOKENS = {
   background: "#F7F4EE",
-  surface: "#FFFFFF",
   navy: "#1E3A5F",
   teal: "#2A9D8F",
   muted: "#5C6773",
-  ink: "#1B2430",
-  safe: "#2F9E44",
-  warning: "#E6A817",
+  cream: "#F7F4EE",
 };
 
-type Tab = "clocks" | "sevis" | "uscis" | "h1b";
+const extra = (Constants.expoConfig?.extra ?? {}) as {
+  siteUrl?: string;
+  fallbackUrl?: string;
+};
 
-const TABS: { id: Tab; label: string }[] = [
-  { id: "clocks", label: "Clocks" },
-  { id: "sevis", label: "SEVIS" },
-  { id: "uscis", label: "USCIS" },
-  { id: "h1b", label: "H-1B" },
-];
+const CANONICAL = (
+  process.env.EXPO_PUBLIC_SITE_URL ||
+  extra.siteUrl ||
+  "https://statuspass.com"
+).replace(/\/$/, "");
 
-/**
- * Expo organizer shell. Tokens match web. Do not share RN views with Next.js.
- * Push: POST the Expo token to apps/web /api/push-tokens after auth.
- */
-export default function App() {
-  const [tab, setTab] = useState<Tab>("clocks");
-  const [sevisId, setSevisId] = useState("");
-  const [selfStatus, setSelfStatus] = useState("unset");
-  const [receipt, setReceipt] = useState("");
-  const [cases, setCases] = useState<{ id: string; receipt: string }[]>([]);
-  const [deadline, setDeadline] = useState("");
-  const [dates, setDates] = useState<{ id: string; title: string }[]>([]);
+const FALLBACK = (
+  process.env.EXPO_PUBLIC_FALLBACK_URL ||
+  extra.fallbackUrl ||
+  "https://temporary-prompt-pavo-7vphl3a.vercel.app"
+).replace(/\/$/, "");
 
-  const body = useMemo(() => {
-    if (tab === "sevis") {
-      return (
-        <View style={{ gap: 12 }}>
-          <Text style={{ fontSize: 22, fontWeight: "700", color: TOKENS.navy }}>
-            SEVIS wallet
-          </Text>
-          <Text style={{ color: TOKENS.muted }}>
-            Self-reported only. This app never looks up SEVIS or ICE.
-          </Text>
-          <TextInput
-            value={sevisId}
-            onChangeText={setSevisId}
-            placeholder="N0000000000"
-            autoCapitalize="characters"
-            style={inputStyle}
-          />
-          {(["unset", "active", "escalate_dso"] as const).map((value) => (
-            <Pressable
-              key={value}
-              onPress={() => setSelfStatus(value)}
-              style={{
-                padding: 12,
-                borderRadius: 12,
-                backgroundColor:
-                  selfStatus === value ? "#2A9D8F20" : TOKENS.surface,
-              }}
-            >
-              <Text style={{ color: TOKENS.navy, fontWeight: "600" }}>
-                {value === "unset"
-                  ? "Not set yet"
-                  : value === "active"
-                    ? "I believe SEVIS is active"
-                    : "I need to talk to my DSO"}
-              </Text>
-            </Pressable>
-          ))}
-          <Text style={{ color: TOKENS.ink }}>
-            Wallet: {sevisId || "add ID"} · {selfStatus}
-          </Text>
-        </View>
-      );
-    }
-    if (tab === "uscis") {
-      return (
-        <View style={{ gap: 12 }}>
-          <Text style={{ fontSize: 22, fontWeight: "700", color: TOKENS.navy }}>
-            USCIS case helper
-          </Text>
-          <Text style={{ color: TOKENS.muted }}>
-            Official case status lives on USCIS. We only store the receipt you
-            type.
-          </Text>
-          <TextInput
-            value={receipt}
-            onChangeText={setReceipt}
-            placeholder="IOE1234567890"
-            autoCapitalize="characters"
-            style={inputStyle}
-          />
-          <Pressable
-            onPress={() => {
-              const value = receipt.trim().toUpperCase();
-              if (!/^[A-Z]{3}[0-9]{10}$/.test(value)) return;
-              setCases((prev) => [{ id: value, receipt: value }, ...prev]);
-              setReceipt("");
-            }}
-            style={buttonStyle}
-          >
-            <Text style={{ color: "#fff", fontWeight: "700" }}>Save receipt</Text>
-          </Pressable>
-          {cases.map((row) => (
-            <Text key={row.id} style={{ color: TOKENS.navy, fontWeight: "600" }}>
-              {row.receipt}
-            </Text>
-          ))}
-        </View>
-      );
-    }
-    if (tab === "h1b") {
-      return (
-        <View style={{ gap: 12 }}>
-          <Text style={{ fontSize: 22, fontWeight: "700", color: TOKENS.navy }}>
-            H-1B timeline
-          </Text>
-          <Text style={{ color: TOKENS.muted }}>
-            Planner only. StatusPass does not file petitions.
-          </Text>
-          <TextInput
-            value={deadline}
-            onChangeText={setDeadline}
-            placeholder="Registration window"
-            style={inputStyle}
-          />
-          <Pressable
-            onPress={() => {
-              if (!deadline.trim()) return;
-              setDates((prev) => [
-                { id: deadline, title: deadline.trim() },
-                ...prev,
-              ]);
-              setDeadline("");
-            }}
-            style={buttonStyle}
-          >
-            <Text style={{ color: "#fff", fontWeight: "700" }}>Add deadline</Text>
-          </Pressable>
-          {dates.map((row) => (
-            <Text key={row.id} style={{ color: TOKENS.navy, fontWeight: "600" }}>
-              {row.title}
-            </Text>
-          ))}
-        </View>
-      );
-    }
-    return (
-      <View style={{ gap: 12 }}>
-        <Text style={{ fontSize: 22, fontWeight: "700", color: TOKENS.navy }}>
-          Your clocks
-        </Text>
-        <Clock label="CPT full-time" remaining={272} limit={364} color={TOKENS.safe} />
-        <Clock label="OPT unemployment" remaining={25} limit={90} color={TOKENS.warning} />
-        <Clock label="STEM OPT unemployment" remaining={48} limit={60} color={TOKENS.safe} />
-        <Text style={{ color: TOKENS.muted }}>
-          Example clocks. Add employment dates on web to replace them.
-        </Text>
-      </View>
-    );
-  }, [tab, sevisId, selfStatus, receipt, cases, deadline, dates]);
-
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: TOKENS.background }}>
-      <StatusBar barStyle="dark-content" />
-      <ScrollView contentContainerStyle={{ padding: 24, paddingBottom: 120, gap: 16 }}>
-        <Text style={{ fontSize: 28, fontWeight: "700", color: TOKENS.navy }}>
-          StatusPass
-        </Text>
-        {body}
-        <Text style={{ color: TOKENS.muted, lineHeight: 20 }}>
-          Compliance organizer for F-1 / CPT / OPT / STEM OPT. Not a law firm or
-          DSO. Founded by DINESH S.
-        </Text>
-      </ScrollView>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-around",
-          paddingVertical: 12,
-          backgroundColor: TOKENS.surface,
-          borderTopColor: "#5C677320",
-          borderTopWidth: 1,
-        }}
-      >
-        {TABS.map((item) => (
-          <Pressable key={item.id} onPress={() => setTab(item.id)}>
-            <Text
-              style={{
-                color: tab === item.id ? TOKENS.teal : TOKENS.muted,
-                fontWeight: "700",
-              }}
-            >
-              {item.label}
-            </Text>
-          </Pressable>
-        ))}
-      </View>
-    </SafeAreaView>
-  );
+function organizerUrl(origin: string) {
+  return `${origin}/app`;
 }
 
-function Clock({
-  label,
-  remaining,
-  limit,
-  color,
-}: {
-  label: string;
-  remaining: number;
-  limit: number;
-  color: string;
-}) {
+type Mode = "web" | "offline";
+
+export default function App() {
+  const [origin, setOrigin] = useState(CANONICAL);
+  const [mode, setMode] = useState<Mode>("web");
+  const [loading, setLoading] = useState(true);
+
+  const uri = useMemo(() => organizerUrl(origin), [origin]);
+
+  const onFail = () => {
+    if (origin === CANONICAL && FALLBACK !== CANONICAL) {
+      setOrigin(FALLBACK);
+      setLoading(true);
+      return;
+    }
+    setMode("offline");
+    setLoading(false);
+  };
+
   return (
-    <View
-      style={{
-        backgroundColor: TOKENS.surface,
-        borderRadius: 12,
-        padding: 16,
-      }}
-    >
-      <Text style={{ color: TOKENS.muted, fontWeight: "600" }}>{label}</Text>
-      <Text style={{ color, fontSize: 28, fontWeight: "700" }}>
-        {remaining}
-        <Text style={{ fontSize: 14, color: TOKENS.muted }}> / {limit} left</Text>
-      </Text>
+    <View style={styles.root}>
+      <StatusBar style={mode === "web" && !loading ? "light" : "light"} />
+
+      {mode === "web" ? (
+        <View style={styles.webWrap}>
+          <WebView
+            source={{ uri }}
+            onLoadEnd={() => setLoading(false)}
+            onError={onFail}
+            onHttpError={(event) => {
+              if (event.nativeEvent.statusCode >= 400) onFail();
+            }}
+            startInLoadingState
+            applicationNameForUserAgent="StatusPassMobile/0.1"
+            style={styles.webview}
+          />
+          {loading ? (
+            <View style={styles.splash}>
+              <Text style={styles.splashTitle}>StatusPass</Text>
+              <Text style={styles.splashBody}>
+                Opening your clocks, SEVIS wallet, USCIS helper, and H-1B
+                timeline.
+              </Text>
+              <ActivityIndicator color={TOKENS.teal} style={{ marginTop: 16 }} />
+              <Text style={styles.splashCredit}>Founded by DINESH S</Text>
+              <Pressable
+                onPress={() => {
+                  setMode("offline");
+                  setLoading(false);
+                }}
+                style={styles.skip}
+              >
+                <Text style={styles.skipText}>Use offline organizer</Text>
+              </Pressable>
+            </View>
+          ) : null}
+        </View>
+      ) : (
+        <View style={styles.offlineWrap}>
+          <SafeAreaView style={styles.brandBarWrap}>
+            <View style={styles.brandBar}>
+              <Text style={styles.wordmark}>StatusPass</Text>
+              <Text style={styles.credit}>DINESH S</Text>
+            </View>
+          </SafeAreaView>
+          <OfflineOrganizer />
+          <SafeAreaView style={styles.brandBarWrap}>
+            <Pressable
+              onPress={() => {
+                setOrigin(CANONICAL);
+                setMode("web");
+                setLoading(true);
+              }}
+              style={styles.skip}
+            >
+              <Text style={styles.liveText}>Open live StatusPass</Text>
+            </Pressable>
+          </SafeAreaView>
+        </View>
+      )}
     </View>
   );
 }
 
-const inputStyle = {
-  backgroundColor: TOKENS.surface,
-  borderRadius: 12,
-  paddingHorizontal: 12,
-  paddingVertical: 10,
-  color: TOKENS.ink,
-} as const;
-
-const buttonStyle = {
-  backgroundColor: TOKENS.teal,
-  paddingVertical: 14,
-  borderRadius: 12,
-  alignItems: "center" as const,
-};
+const styles = StyleSheet.create({
+  root: { flex: 1, backgroundColor: TOKENS.navy },
+  webWrap: { flex: 1, backgroundColor: TOKENS.background },
+  webview: { flex: 1, backgroundColor: TOKENS.background },
+  splash: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: TOKENS.background,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 32,
+  },
+  splashTitle: { fontSize: 32, fontWeight: "700", color: TOKENS.navy },
+  splashBody: {
+    marginTop: 12,
+    textAlign: "center",
+    color: TOKENS.muted,
+    lineHeight: 22,
+  },
+  splashCredit: { marginTop: 20, color: TOKENS.muted, fontSize: 13 },
+  skip: { marginTop: 20, paddingVertical: 8, paddingHorizontal: 12 },
+  skipText: { color: TOKENS.teal, fontWeight: "700" },
+  offlineWrap: { flex: 1, backgroundColor: TOKENS.background },
+  brandBarWrap: { backgroundColor: TOKENS.navy },
+  brandBar: {
+    minHeight: 48,
+    paddingHorizontal: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  wordmark: { color: TOKENS.cream, fontSize: 18, fontWeight: "700" },
+  credit: { color: "rgba(247,244,238,0.7)", fontSize: 11, fontWeight: "600" },
+  liveText: {
+    color: TOKENS.cream,
+    textAlign: "center",
+    fontWeight: "700",
+    paddingVertical: 8,
+  },
+});

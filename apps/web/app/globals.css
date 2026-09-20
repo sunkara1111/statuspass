@@ -14,8 +14,20 @@ body {
   color: var(--ink);
 }
 
+html {
+  height: 100%;
+}
+
 body {
   min-height: 100vh;
+  min-height: 100dvh;
+}
+
+@media (display-mode: standalone) {
+  body {
+    min-height: 100dvh;
+    overscroll-behavior: none;
+  }
 }
 
 a {
@@ -25,9 +37,13 @@ a {
 /* Public UI must not show Vercel toolbar / “Powered by” sponsorship chrome. */
 [data-vercel-toolbar],
 [data-vercel-overlay],
+[data-vercel-badge],
 vercel-live-feedback,
 #vercel-live-feedback,
 iframe[src*="vercel.live"],
-a[href*="vercel.com"][href*="utm_"] {
+a[href*="vercel.com"][href*="utm_"],
+a[href*="vercel.com/home"][target="_blank"],
+#__next-build-watcher {
   display: none !important;
+  pointer-events: none !important;
 }

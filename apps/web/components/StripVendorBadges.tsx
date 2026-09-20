@@ -5,6 +5,7 @@ import { useEffect } from "react";
 const SELECTORS = [
   "[data-vercel-toolbar]",
   "[data-vercel-overlay]",
+  "[data-vercel-badge]",
   "vercel-live-feedback",
   "#vercel-live-feedback",
   'iframe[src*="vercel.live"]',
@@ -21,8 +22,15 @@ export function StripVendorBadges() {
       }
       document.querySelectorAll("a").forEach((anchor) => {
         const text = (anchor.textContent || "").trim();
-        if (/powered by/i.test(text) || /sponsored by vercel/i.test(text)) {
-          anchor.remove();
+        if (
+          /powered by/i.test(text) ||
+          /sponsored by vercel/i.test(text) ||
+          /^vercel$/i.test(text)
+        ) {
+          const href = anchor.getAttribute("href") || "";
+          if (/vercel\.com/i.test(href) || /powered by/i.test(text)) {
+            anchor.remove();
+          }
         }
       });
     };

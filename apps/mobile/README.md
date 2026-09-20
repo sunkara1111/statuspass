@@ -1,17 +1,30 @@
 # StatusPass mobile
 
-The launch surface is the web organizer. This Expo / React Native shell mirrors the free tools:
+Expo app that opens the same StatusPass organizer as the web PWA.
 
-- Clocks (example CPT / OPT / STEM)
-- SEVIS wallet (self-status only — never a live lookup)
-- USCIS case helper (receipts you type)
-- H-1B timeline (planner — no filing)
+- Live mode: WebView to `https://statuspass.com/app` (override with `EXPO_PUBLIC_SITE_URL`)
+- Fallback: `https://temporary-prompt-pavo-7vphl3a.vercel.app/app`
+- Offline: local clocks / SEVIS / USCIS / H-1B tabs if neither host loads
+
+Branding: navy chrome, StatusPass wordmark, **Founded by DINESH S**.
 
 Tokens: `#F7F4EE` cream, `#1E3A5F` navy, `#2A9D8F` teal. Do not share React Native views with web.
 
-1. `cd apps/mobile && npx create-expo-app . --template blank-typescript` (or install `expo` + `react-native` here).
-2. Keep `App.tsx` as the organizer tabs.
-3. After the student signs in, register the Expo push token:
+## Run
+
+From this directory (after the repo-root `pnpm install`):
+
+```bash
+npx expo start
+```
+
+Or from the repo root: `pnpm --filter @statuspass/mobile start`.
+
+Scan the QR code with Expo Go. EAS build config is in `eas.json` (`eas build` after `eas init`).
+
+## Push tokens
+
+After the student signs in on web, register the Expo push token:
 
 ```ts
 await fetch(`${WEB_URL}/api/push-tokens`, {

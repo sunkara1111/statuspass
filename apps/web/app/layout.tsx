@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
+import { RegisterServiceWorker } from "@/components/RegisterServiceWorker";
 import { StripVendorBadges } from "@/components/StripVendorBadges";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, siteUrl } from "@/lib/site";
 
@@ -16,6 +17,14 @@ const serif = Source_Serif_4({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#1E3A5F",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  colorScheme: "light",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
   title: {
@@ -26,6 +35,7 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   authors: [{ name: "DINESH S" }],
   creator: "DINESH S",
+  manifest: "/manifest.webmanifest",
   keywords: [
     "F-1",
     "CPT",
@@ -37,6 +47,24 @@ export const metadata: Metadata = {
     "E-Verify",
     "international student",
   ],
+  icons: {
+    icon: [
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
+  },
+  appleWebApp: {
+    capable: true,
+    title: SITE_NAME,
+    statusBarStyle: "black-translucent",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
+  },
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
@@ -53,6 +81,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function RootLayout({
@@ -64,6 +95,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${sans.variable} ${serif.variable} font-sans antialiased`}>
         <StripVendorBadges />
+        <RegisterServiceWorker />
         {children}
       </body>
     </html>

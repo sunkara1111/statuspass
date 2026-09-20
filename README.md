@@ -6,7 +6,7 @@ Compliance organizer for F-1 / CPT / OPT / STEM OPT students in the United State
 
 Voice: anxiety-reducing. One next action.
 
-This GitHub repo is the source of truth. A temporary Vercel URL exists until a custom domain is attached — see `DOMAIN.md`. Tone reference only:
+This GitHub repo is the source of truth. Canonical public URL: **https://statuspass.com** (`NEXT_PUBLIC_SITE_URL`). The Vercel host is the fallback until DNS/TLS on that domain is green — see `DOMAIN.md`. Tone reference:
 
 https://temporary-prompt-pavo-7vphl3a.vercel.app
 
@@ -17,7 +17,7 @@ Turborepo monorepo.
 | Path | Role |
 |---|---|
 | `apps/web` | Next.js App Router + Tailwind |
-| `apps/mobile` | Expo organizer tabs (clocks, SEVIS, USCIS, H-1B) |
+| `apps/mobile` | Expo app — WebView to the live organizer + offline tabs |
 | `packages/compliance` | CPT / OPT / STEM day math, I-765 flags, CIP heuristic |
 | `packages/db` | Zod mirrors of SQL enums/tables |
 | `packages/ui` | Tokens + StatusClock, DeadlineCard, PrimaryButton, ChecklistRow, FormProgress |
@@ -48,6 +48,12 @@ pnpm dev
 
 Open http://localhost:3000. Landing, clocks, SEVIS wallet, USCIS helper, and H-1B timeline work without Supabase (device storage). Auth persist needs keys.
 
+`/app` is the installed-app shell (bottom nav, no marketing chrome). Add to Home Screen uses the web app manifest + service worker.
+
+```bash
+cd apps/mobile && npx expo start
+```
+
 ## Environment
 
 Copy `.env.example`. No real secrets belong in git.
@@ -58,8 +64,10 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 I765_FEE_CENTS=52000
 CRON_SECRET=
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SITE_URL=https://statuspass.com
 ```
+
+Locally you can set `NEXT_PUBLIC_SITE_URL=http://localhost:3000`. Production prefers `https://statuspass.com` and falls back to `*.vercel.app` on preview deploys.
 
 `I765_FEE_CENTS` is the fee StatusPass checks against. It is not a live USCIS feed.
 
@@ -104,10 +112,20 @@ Or import `sunkara1111/statuspass` in the Vercel dashboard. This repo’s `verce
 
 Then:
 
-1. Project Settings → Environment Variables: paste `.env.example` keys. Set `NEXT_PUBLIC_SITE_URL` to the production URL.
+1. Project Settings → Environment Variables: paste `.env.example` keys. Set `NEXT_PUBLIC_SITE_URL=https://statuspass.com`.
 2. Redeploy if you added env after the first build.
 3. Optional: assign a custom domain. Search Console file is at `/google04d4f9506cc11bf7.html`.
 4. Confirm the landing shows DINESH S in the footer and the three guest clocks before signup. There is no Vercel “powered by” badge in the UI.
+
+## Install the web app
+
+StatusPass is a Progressive Web App. After deploy:
+
+- **iPhone / iPad:** Safari → Share → Add to Home Screen
+- **Android:** Chrome → menu → Install app / Add to Home screen
+- **Desktop Chrome / Edge:** install icon in the address bar
+
+The home-screen icon opens `/app` in standalone display (navy app chrome, bottom nav). There is no Vercel “powered by” badge.
 
 ## SEO
 
