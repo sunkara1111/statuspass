@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #f7f4ee;
+  --ink: #1b2430;
+  --navy: #1e3a5f;
+}
+
+html,
+body {
+  background: var(--background);
+  color: var(--ink);
+}
+
+body {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+}

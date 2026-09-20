@@ -1,0 +1,17 @@
+{
+  "name": "statuspass",
+  "version": "0.1.0",
+  "private": true,
+  "description": "StatusPass — F-1 / CPT / OPT / STEM OPT compliance organizer by DINESH S",
+  "packageManager": "pnpm@10.33.3",
+  "scripts": {
+    "dev": "turbo run dev --filter=@statuspass/web",
+    "build": "turbo run build --filter=@statuspass/web",
+    "lint": "turbo run lint --filter=@statuspass/web",
+    "test": "turbo run test --filter=@statuspass/compliance"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.6",
+    "typescript": "^5.9.2"
+  }
+}

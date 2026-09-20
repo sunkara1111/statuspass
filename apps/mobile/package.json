@@ -1,0 +1,10 @@
+{
+  "name": "@statuspass/mobile",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "echo 'Install Expo in this app when you are ready: npx create-expo-app . --template blank-typescript'",
+    "build": "echo 'Expo scaffold — not part of the Vercel web build'"
+  }
+}
