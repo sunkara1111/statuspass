@@ -1,8 +1,8 @@
 # Custom domain checklist
 
-StatusPass currently publishes from Vercel. The preview hostname is a `*.vercel.app` URL. Do **not** invent or commit a production hostname here — use a domain you already own.
+The canonical public URL is **https://statuspass.com**. Set `NEXT_PUBLIC_SITE_URL=https://statuspass.com` on Vercel Production. Preview deployments keep the `*.vercel.app` host as fallback.
 
-Leave `*.vercel.app` only after the records below resolve and TLS is issued.
+Leave `*.vercel.app` as the only public URL only until the records below resolve and TLS is issued.
 
 ## 1. Pick a domain you control
 
@@ -25,7 +25,7 @@ Use a domain already registered to the founder or the StatusPass operator. Do no
 Set these on the Vercel project (Production):
 
 ```
-NEXT_PUBLIC_SITE_URL=https://<the-domain-you-attached>
+NEXT_PUBLIC_SITE_URL=https://statuspass.com
 ```
 
 No trailing slash. Sitemap, Open Graph, and auth redirect URLs read this value. After it is set, redeploy.

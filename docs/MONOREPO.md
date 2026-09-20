@@ -2,7 +2,7 @@
 
 ```
 apps/web                 Next.js App Router + Tailwind
-apps/mobile              Expo / React Native
+apps/mobile              Expo Router app (clocks, SEVIS, USCIS, H-1B, optional auth)
 packages/ui              tokens + StatusClock, DeadlineCard, PrimaryButton, ChecklistRow, FormProgress
 packages/db              Zod mirrors of SQL enums/tables
 packages/compliance      CPT / OPT / STEM day math, I-765 reject flags, CIP heuristic, planner days
@@ -24,6 +24,7 @@ docs/                    ONBOARDING.md, DESIGN.md
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
+NEXT_PUBLIC_SITE_URL=https://statuspass.com
 ```
 
 ## Next sprints
