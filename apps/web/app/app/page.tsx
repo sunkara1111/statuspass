@@ -2,6 +2,7 @@ import Link from "next/link";
 import { exampleGuestClocks } from "@statuspass/compliance";
 import { DeadlineCard, StatusClock } from "@statuspass/ui";
 import { AppShell } from "@/components/AppShell";
+import { DashboardOverview } from "@/components/DashboardOverview";
 import { isSupabaseConfigured } from "@/lib/site";
 
 export default function DashboardPage() {
@@ -10,17 +11,8 @@ export default function DashboardPage() {
 
   return (
     <AppShell title="Your clocks">
-      {preview ? (
-        <p className="mb-4 rounded-card border border-warning/40 bg-warning/10 px-4 py-3 text-sm">
-          Preview mode — add Supabase keys to persist a real student graph.
-          Example clocks below use the shared compliance package.
-        </p>
-      ) : (
-        <p className="mb-4 text-sm text-muted">
-          Next action: confirm employment dates so unemployment stays accurate.
-        </p>
-      )}
-      <div className="grid gap-6 md:grid-cols-3">
+      <DashboardOverview previewMode={preview} />
+      <div className="mt-8 grid gap-6 md:grid-cols-3">
         {guest.clocks.map((clock) => (
           <StatusClock
             key={clock.kind}
@@ -32,6 +24,10 @@ export default function DashboardPage() {
           />
         ))}
       </div>
+      <p className="mt-3 text-xs text-muted">
+        Example clocks from the shared compliance package — sign in and add
+        employment dates to replace them with yours.
+      </p>
       <div className="mt-8 grid gap-4 md:grid-cols-2">
         <DeadlineCard
           title="Morning digest"
@@ -46,12 +42,12 @@ export default function DashboardPage() {
       </div>
       <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {[
-          ["/app/sevis", "SEVIS self-status"],
-          ["/app/cases", "USCIS cases"],
-          ["/app/h1b", "H-1B organizer"],
-          ["/app/i765", "I-765 (Pro stub)"],
-          ["/app/i983", "I-983 (Pro stub)"],
-          ["/app/everify", "E-Verify search (Pro stub)"],
+          ["/app/sevis", "SEVIS wallet"],
+          ["/app/cases", "USCIS case helper"],
+          ["/app/h1b", "H-1B docs & timeline"],
+          ["/app/i765", "I-765 packet check"],
+          ["/app/i983", "I-983 draft"],
+          ["/app/everify", "E-Verify sample catalog"],
         ].map(([href, label]) => (
           <Link
             key={href}

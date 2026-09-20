@@ -21,3 +21,13 @@ body {
 a {
   color: inherit;
 }
+
+/* Public UI must not show Vercel toolbar / “Powered by” sponsorship chrome. */
+[data-vercel-toolbar],
+[data-vercel-overlay],
+vercel-live-feedback,
+#vercel-live-feedback,
+iframe[src*="vercel.live"],
+a[href*="vercel.com"][href*="utm_"] {
+  display: none !important;
+}

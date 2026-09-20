@@ -5,8 +5,8 @@ apps/web                 Next.js App Router + Tailwind
 apps/mobile              Expo / React Native
 packages/ui              tokens + StatusClock, DeadlineCard, PrimaryButton, ChecklistRow, FormProgress
 packages/db              Zod mirrors of SQL enums/tables
-packages/compliance      CPT / OPT / STEM day math, I-765 reject flags, CIP heuristic
-supabase/migrations      0001_init.sql
+packages/compliance      CPT / OPT / STEM day math, I-765 reject flags, CIP heuristic, planner days
+supabase/migrations      0001–0008 (SEVIS / USCIS / H-1B / push / samples)
 docs/                    ONBOARDING.md, DESIGN.md
 ```
 
@@ -16,7 +16,7 @@ docs/                    ONBOARDING.md, DESIGN.md
 - Supabase Auth `profiles.id = auth.users.id`. RLS is student-owns-own-graph. Employer directory is read-only.
 - `packages/compliance` is the only place day-count math lives. UI never computes clocks inline.
 - Affiliate rows are seed/catalog data until real contracts exist.
-- Origin is source of truth for the repo. No GitHub mirror for deploy.
+- GitHub `sunkara1111/statuspass` is source of truth. Attach a custom domain with `DOMAIN.md`.
 
 ## Env
 

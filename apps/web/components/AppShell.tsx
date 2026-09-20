@@ -1,17 +1,6 @@
 import Link from "next/link";
-import { ORGANIZER_LINE } from "@/lib/site";
-
-const NAV = [
-  { href: "/app", label: "Clocks" },
-  { href: "/app/sevis", label: "SEVIS" },
-  { href: "/app/cases", label: "USCIS" },
-  { href: "/app/h1b", label: "H-1B" },
-  { href: "/app/i765", label: "I-765" },
-  { href: "/app/i983", label: "I-983" },
-  { href: "/app/everify", label: "E-Verify" },
-  { href: "/app/onboarding", label: "Onboarding" },
-  { href: "/app/settings", label: "Settings" },
-];
+import { FOUNDER_LINE, ORGANIZER_LINE } from "@/lib/site";
+import { AppNav } from "./AppNav";
 
 export function AppShell({
   title,
@@ -27,17 +16,7 @@ export function AppShell({
           <Link href="/" className="font-serif text-xl font-semibold text-navy">
             StatusPass
           </Link>
-          <nav className="flex flex-wrap gap-3 text-sm">
-            {NAV.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="rounded-pill px-3 py-1 text-muted hover:bg-navy/5 hover:text-navy"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+          <AppNav />
         </div>
       </header>
       <main className="mx-auto max-w-6xl px-6 py-8">
@@ -45,6 +24,9 @@ export function AppShell({
         <p className="mt-2 text-sm text-muted">{ORGANIZER_LINE}</p>
         <div className="mt-6">{children}</div>
       </main>
+      <footer className="border-t border-muted/20 px-6 py-6 text-center text-xs text-muted">
+        {ORGANIZER_LINE} {FOUNDER_LINE}
+      </footer>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ORGANIZER_LINE } from "@/lib/site";
 import { createClient } from "@/lib/supabase/client";
+import { ensureStudent } from "@/lib/student-session";
 
 export function AuthForm({
   mode,
@@ -46,12 +47,18 @@ export function AuthForm({
     }
 
     if (mode === "signup") {
-      const { error } = await supabase.auth.signUp({ email, password });
-      setMessage(
-        error
-          ? error.message
-          : "Account created. Confirm the email if prompted, then open your clocks.",
-      );
+      const { data, error } = await supabase.auth.signUp({ email, password });
+      if (error) {
+        setMessage(error.message);
+      } else if (data.session) {
+        await ensureStudent(supabase);
+        window.location.assign(redirect);
+        return;
+      } else {
+        setMessage(
+          "Account created. Confirm the email if prompted, then open your clocks.",
+        );
+      }
     } else {
       const { error } = await supabase.auth.signInWithPassword({
         email,
@@ -60,6 +67,7 @@ export function AuthForm({
       if (error) {
         setMessage(error.message);
       } else {
+        await ensureStudent(supabase);
         window.location.assign(redirect);
         return;
       }

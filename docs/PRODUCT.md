@@ -16,7 +16,7 @@ International students in the United States on F-1, including incoming Master’
 
 ## Freemium
 
-- **Free forever:** CPT counter, OPT/STEM clocks, danger alerts
+- **Free forever:** CPT counter, OPT/STEM clocks, danger alerts, SEVIS wallet / self-status, USCIS case helper, H-1B timeline organizer
 - **Paid:** I-765 autofill, I-983 generator, E-Verify employer search
 
 ## Voice

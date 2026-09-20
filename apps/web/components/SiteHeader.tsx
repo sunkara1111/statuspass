@@ -14,6 +14,9 @@ export function SiteHeader({
           StatusPass
         </Link>
         <nav className="flex items-center gap-6 text-[15px]">
+          <Link href="/app" className="text-muted hover:text-navy">
+            Organizer
+          </Link>
           <Link href="/login" className="text-muted hover:text-navy">
             Login
           </Link>

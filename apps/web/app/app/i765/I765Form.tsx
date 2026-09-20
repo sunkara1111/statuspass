@@ -58,7 +58,8 @@ export function I765Form({ feeCents }: { feeCents: number }) {
   return (
     <div className="max-w-xl">
       <p className="mb-4 rounded-card border border-navy/15 bg-surface p-4 text-sm">
-        Pro stub — not a filing. Current fee on file: ${(fee / 100).toFixed(2)}.
+        Packet check only — not a USCIS filing. Current fee on file: $
+        {(fee / 100).toFixed(2)}.
       </p>
       <FormProgress
         steps={["Category", "Identity", "Fee", "Review"]}

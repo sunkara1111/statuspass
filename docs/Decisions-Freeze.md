@@ -21,4 +21,4 @@ Founder: DINESH S
 
 ## Tech
 - Turborepo, Next.js, Expo, Supabase/Postgres, Tailwind
-- Origin repo is source of truth (do not mirror to GitHub just for Vercel)
+- GitHub repo `sunkara1111/statuspass` is source of truth. Custom domain: `DOMAIN.md`.
