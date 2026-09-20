@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "StatusPass",
+    "slug": "statuspass",
+    "scheme": "statuspass",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "app.statuspass.mobile"
+    },
+    "android": {
+      "package": "app.statuspass.mobile"
+    },
+    "plugins": [],
+    "extra": {
+      "eas": {
+        "projectId": "replace-after-eas-init"
+      }
+    }
+  }
+}

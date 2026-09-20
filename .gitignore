@@ -1,0 +1,17 @@
+node_modules
+.pnpm-store
+.next
+.turbo
+dist
+.expo
+.DS_Store
+*.log
+.env
+.env.local
+.env*.local
+apps/web/.env.local
+apps/mobile/.env
+coverage
+.vercel
+tsconfig.tsbuildinfo
+next-env.d.ts
