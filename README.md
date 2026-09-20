@@ -6,7 +6,7 @@ Compliance organizer for F-1 / CPT / OPT / STEM OPT students in the United State
 
 Voice: anxiety-reducing. One next action.
 
-This GitHub repo is the source of truth. A temporary Vercel URL exists only as a tone reference — do not treat it as production:
+This GitHub repo is the source of truth. A temporary Vercel URL exists until a custom domain is attached — see `DOMAIN.md`. Tone reference only:
 
 https://temporary-prompt-pavo-7vphl3a.vercel.app
 
@@ -17,7 +17,7 @@ Turborepo monorepo.
 | Path | Role |
 |---|---|
 | `apps/web` | Next.js App Router + Tailwind |
-| `apps/mobile` | Expo scaffold (optional) |
+| `apps/mobile` | Expo organizer tabs (clocks, SEVIS, USCIS, H-1B) |
 | `packages/compliance` | CPT / OPT / STEM day math, I-765 flags, CIP heuristic |
 | `packages/db` | Zod mirrors of SQL enums/tables |
 | `packages/ui` | Tokens + StatusClock, DeadlineCard, PrimaryButton, ChecklistRow, FormProgress |
@@ -28,7 +28,7 @@ Day-count math lives only in `packages/compliance`. UI never computes clocks inl
 ## Freemium
 
 - **Free forever:** CPT counter, OPT/STEM clocks, danger alerts, SEVIS self-status, USCIS receipt helper, H-1B planner
-- **Paid stubs:** I-765 autofill, I-983 generator, E-Verify employer search
+- **Pro helpers:** I-765 packet check, I-983 draft, E-Verify sample catalog (not filings)
 
 Frozen rules (see `docs/Decisions-Freeze.md`):
 
@@ -46,7 +46,7 @@ cp .env.example apps/web/.env.local
 pnpm dev
 ```
 
-Open http://localhost:3000. The landing, clocks, and Pro stubs render without Supabase. Auth persist needs keys.
+Open http://localhost:3000. Landing, clocks, SEVIS wallet, USCIS helper, and H-1B timeline work without Supabase (device storage). Auth persist needs keys.
 
 ## Environment
 
@@ -106,6 +106,7 @@ Copy the project URL, anon key, and service role key into `apps/web/.env.local`.
 
 ## Docs
 
+- `DOMAIN.md` — attach a domain you already own (no invented hostname)
 - `docs/PRODUCT.md`
 - `docs/Decisions-Freeze.md`
 - `docs/DESIGN.md`

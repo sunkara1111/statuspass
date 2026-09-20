@@ -16,8 +16,8 @@ export async function POST(request: Request) {
   if (!supabase) {
     return NextResponse.json({
       ok: true,
-      stored: "stub",
-      note: "Supabase is not configured. Expo can retry after keys are set.",
+      stored: "device",
+      note: "Supabase is not configured. The token was accepted locally; retry after keys are set to persist it.",
       token: parsed.data,
     });
   }

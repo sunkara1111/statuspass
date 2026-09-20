@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
+import { StripVendorBadges } from "@/components/StripVendorBadges";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, siteUrl } from "@/lib/site";
 
 const sans = DM_Sans({
@@ -62,6 +63,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${sans.variable} ${serif.variable} font-sans antialiased`}>
+        <StripVendorBadges />
         {children}
       </body>
     </html>

@@ -3,7 +3,7 @@ import { AppShell } from "@/components/AppShell";
 import { SevisForm } from "./SevisForm";
 
 export const metadata: Metadata = {
-  title: "SEVIS self-status",
+  title: "SEVIS wallet",
   robots: { index: false, follow: false },
 };
 

@@ -24,12 +24,20 @@ export default function HomePage() {
           StatusPass tracks your CPT days, OPT unemployment, and STEM extension
           in your program timezone. One next action. Free clocks forever.
         </p>
-        <Link
-          href="/signup"
-          className="mt-8 inline-block rounded-card bg-teal px-8 py-3.5 text-lg font-semibold text-white"
-        >
-          Start free with your OPT clock.
-        </Link>
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <Link
+            href="/signup"
+            className="inline-block rounded-card bg-teal px-8 py-3.5 text-lg font-semibold text-white"
+          >
+            Start free with your OPT clock.
+          </Link>
+          <Link
+            href="/app"
+            className="inline-block rounded-card border border-navy/20 px-8 py-3.5 text-lg font-semibold text-navy"
+          >
+            Open the organizer
+          </Link>
+        </div>
         <p className="mt-4 text-sm text-muted">
           No credit card · Disclaimer sits beside signup, not only the footer
         </p>
@@ -78,40 +86,68 @@ export default function HomePage() {
 
       <section className="bg-surface py-12">
         <div className="mx-auto max-w-6xl px-6">
-          <h2 className="mb-12 text-center font-serif text-3xl font-semibold text-navy">
-            How StatusPass keeps you organized
+          <h2 className="mb-4 text-center font-serif text-3xl font-semibold text-navy">
+            Free organizers you can use today
           </h2>
-          <div className="grid gap-8 md:grid-cols-3">
-            {[
-              {
-                n: "1",
-                t: "Connect your status",
-                d: "Add I-20 dates, CPT records, and employment. Day math lives in one place — never inline in the UI.",
-              },
-              {
-                n: "2",
-                t: "See the next action",
-                d: "CPT 364 hard alert. OPT 90-day unemployment. STEM adds 60. One primary action per screen.",
-              },
-              {
-                n: "3",
-                t: "Get alerts early",
-                d: "Green when safe, amber at ≤30 days (or CPT ≥340), red at ≤7 days. Danger color only on the clock and banner.",
-              },
-            ].map((step) => (
-              <div key={step.n} className="text-center">
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-navy text-2xl font-bold text-white">
-                  {step.n}
-                </div>
-                <h3 className="text-xl font-semibold text-ink">{step.t}</h3>
-                <p className="mt-2 text-muted">{step.d}</p>
-              </div>
-            ))}
+          <p className="mx-auto mb-10 max-w-2xl text-center text-muted">
+            No live SEVIS or ICE lookup. No scraped USCIS status. No H-1B
+            filing. You enter the facts; we keep them next to the official
+            links.
+          </p>
+          <div className="grid gap-6 md:grid-cols-3">
+            <FeatureCard
+              href="/app/sevis"
+              title="SEVIS wallet"
+              body="Store your SEVIS ID and a self-status: active, or escalate to your DSO. Never a government lookup."
+            />
+            <FeatureCard
+              href="/app/cases"
+              title="USCIS case helper"
+              body="Save receipt numbers and open the official USCIS case-status page. We do not scrape results."
+            />
+            <FeatureCard
+              href="/app/h1b"
+              title="H-1B timeline"
+              body="Plan sponsorship, registration, and filing dates with your employer. StatusPass does not file petitions."
+            />
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-6 py-12">
+      <section className="mx-auto max-w-6xl px-6 py-12">
+        <h2 className="mb-12 text-center font-serif text-3xl font-semibold text-navy">
+          How StatusPass keeps you organized
+        </h2>
+        <div className="grid gap-8 md:grid-cols-3">
+          {[
+            {
+              n: "1",
+              t: "Connect your status",
+              d: "Add I-20 dates, CPT records, and employment. Day math lives in one place — never inline in the UI.",
+            },
+            {
+              n: "2",
+              t: "See the next action",
+              d: "CPT 364 hard alert. OPT 90-day unemployment. STEM adds 60. One primary action per screen.",
+            },
+            {
+              n: "3",
+              t: "Get alerts early",
+              d: "Green when safe, amber at ≤30 days (or CPT ≥340), red at ≤7 days. Danger color only on the clock and banner.",
+            },
+          ].map((step) => (
+            <div key={step.n} className="text-center">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-navy text-2xl font-bold text-white">
+                {step.n}
+              </div>
+              <h3 className="text-xl font-semibold text-ink">{step.t}</h3>
+              <p className="mt-2 text-muted">{step.d}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-6 pb-12">
         <div className="rounded-[20px] border-2 border-navy bg-surface p-8">
           <div className="mb-8 text-center">
             <div className="mb-4 inline-block rounded-pill bg-navy px-4 py-1 text-sm font-semibold text-white">
@@ -162,6 +198,27 @@ export default function HomePage() {
 
       <SiteFooter />
     </div>
+  );
+}
+
+function FeatureCard({
+  href,
+  title,
+  body,
+}: {
+  href: string;
+  title: string;
+  body: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="rounded-card border border-navy/10 bg-background p-6"
+    >
+      <h3 className="font-serif text-xl font-semibold text-navy">{title}</h3>
+      <p className="mt-2 text-sm text-muted">{body}</p>
+      <p className="mt-4 text-sm font-semibold text-teal">Open →</p>
+    </Link>
   );
 }
 

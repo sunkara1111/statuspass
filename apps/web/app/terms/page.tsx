@@ -42,7 +42,8 @@ export default function TermsPage() {
         <h2>Free and Pro</h2>
         <p>
           Free: clocks, danger alerts, SEVIS wallet, USCIS helper, H-1B
-          organizer. Pro stubs: I-765, I-983, E-Verify search.
+          organizer. Pro helpers: I-765 packet check, I-983 draft, E-Verify
+          sample catalog. None of those helpers file with a government agency.
         </p>
         <p className="text-sm text-muted">
           StatusPass is a compliance organizer, not a law firm or DSO. Founded

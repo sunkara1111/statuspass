@@ -48,18 +48,13 @@ Have counsel review `LEGAL/` templates. Add founder contact email + mailing addr
 - Org/Project: StatusPass (Free)
 - Ref: yzoeevdfjdoleajpmbfe
 - Region: us-east-1
-- Migrations 0001-0004 applied
+- Migrations 0001-0007 applied (including SEVIS self-status, uscis_cases, h1b_deadlines, device_push_tokens)
 - Keys only on agent machine under statuspass-secrets (not Desktop)
-- Still need: Vercel linked to Origin + public URL
+- Public URL still on *.vercel.app until DOMAIN.md is completed
 
 ## LIVE
 - Public URL: https://temporary-prompt-pavo-7vphl3a.vercel.app
 - Verified HTTP 200 with StatusPass landing + DINESH S
 
-## Still to apply on Supabase (written on Desktop 2026-09-20)
-SQL Editor, in order, after 0001-0004:
-- DATA/0005_sevis_uscis.sql
-- DATA/0006_h1b_timeline.sql
-- DATA/0007_store_push.sql
-
-Also mirror these into the Origin repo supabase/migrations/ if not already present.
+## Supabase 0005–0007
+Applied on project `yzoeevdfjdoleajpmbfe`. UI lives at `/app/sevis`, `/app/cases`, `/app/h1b`. Custom domain steps: `DOMAIN.md`.

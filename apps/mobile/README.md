@@ -1,9 +1,16 @@
-# StatusPass mobile (Expo scaffold)
+# StatusPass mobile
 
-Web is the launch surface. This folder is the Expo / React Native shell.
+The launch surface is the web organizer. This Expo / React Native shell mirrors the free tools:
+
+- Clocks (example CPT / OPT / STEM)
+- SEVIS wallet (self-status only — never a live lookup)
+- USCIS case helper (receipts you type)
+- H-1B timeline (planner — no filing)
+
+Tokens: `#F7F4EE` cream, `#1E3A5F` navy, `#2A9D8F` teal. Do not share React Native views with web.
 
 1. `cd apps/mobile && npx create-expo-app . --template blank-typescript` (or install `expo` + `react-native` here).
-2. Reuse tokens from `packages/ui` (`#F7F4EE` cream, `#1E3A5F` navy, `#2A9D8F` teal). Do not share React Native views with web in v1.
+2. Keep `App.tsx` as the organizer tabs.
 3. After the student signs in, register the Expo push token:
 
 ```ts

@@ -19,8 +19,8 @@ export function I983Form() {
   return (
     <div className="max-w-2xl space-y-4">
       <p className="rounded-card border border-navy/15 bg-surface p-4 text-sm">
-        Pro stub. Employer must be E-Verify listed (or E-Verify + LCA) for STEM
-        OPT. Confirm with your DSO. This does not submit Form I-983.
+        Draft helper only. Employer must be E-Verify listed (or E-Verify + LCA)
+        for STEM OPT. Confirm with your DSO. This does not submit Form I-983.
       </p>
       <FormProgress steps={["CIP", "Job", "Draft"]} current={sections ? 2 : 0} />
       <label className="block text-sm font-medium">
