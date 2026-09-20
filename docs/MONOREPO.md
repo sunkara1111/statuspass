@@ -2,7 +2,7 @@
 
 ```
 apps/web                 Next.js App Router + Tailwind
-apps/mobile              Expo / React Native (WebView to statuspass.com/app + offline tabs)
+apps/mobile              Expo Router app (clocks, SEVIS, USCIS, H-1B, optional auth)
 packages/ui              tokens + StatusClock, DeadlineCard, PrimaryButton, ChecklistRow, FormProgress
 packages/db              Zod mirrors of SQL enums/tables
 packages/compliance      CPT / OPT / STEM day math, I-765 reject flags, CIP heuristic, planner days

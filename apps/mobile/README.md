@@ -1,37 +1,71 @@
 # StatusPass mobile
 
-Expo app that opens the same StatusPass organizer as the web PWA.
+Expo (SDK 53) + Expo Router app for the same organizer as the web PWA.
 
-- Live mode: WebView to `https://statuspass.com/app` (override with `EXPO_PUBLIC_SITE_URL`)
-- Fallback: `https://temporary-prompt-pavo-7vphl3a.vercel.app/app`
-- Offline: local clocks / SEVIS / USCIS / H-1B tabs if neither host loads
+- Clocks (shared `@statuspass/compliance` example CPT / OPT / STEM math)
+- SEVIS wallet (self-status only — never a live lookup)
+- USCIS case helper (receipts you type; official USCIS link)
+- H-1B timeline (planner — no filing)
+- Optional Supabase auth; guest mode if keys are missing
+- I-765 packet check, settings, privacy links
 
 Branding: navy chrome, StatusPass wordmark, **Founded by DINESH S**.
 
-Tokens: `#F7F4EE` cream, `#1E3A5F` navy, `#2A9D8F` teal. Do not share React Native views with web.
+Store IDs: `com.sunkara.statuspass`. Listing draft: `docs/STORE_LISTING.md`. The app is **not** live on the App Store or Play Store until the owner submits.
 
 ## Run
 
-From this directory (after the repo-root `pnpm install`):
+From the repo root (`pnpm install` first):
 
 ```bash
+cd apps/mobile
+cp .env.example .env   # optional
 npx expo start
 ```
 
-Or from the repo root: `pnpm --filter @statuspass/mobile start`.
+Scan the QR code with Expo Go. The app launches without secrets.
 
-Scan the QR code with Expo Go. EAS build config is in `eas.json` (`eas build` after `eas init`).
+## EAS build (owner accounts required)
 
-## Push tokens
-
-After the student signs in on web, register the Expo push token:
-
-```ts
-await fetch(`${WEB_URL}/api/push-tokens`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ token, platform: "ios" }),
-});
+```bash
+cd apps/mobile
+npm i -g eas-cli
+eas login
+eas init          # replace extra.eas.projectId in app.config.ts
 ```
 
-Own-row only. Tokens wipe when the auth user is deleted (`device_push_tokens` in migration 0007).
+Then:
+
+```bash
+# iOS simulator + Android APK for local QA
+eas build --profile development --platform ios
+eas build --profile development --platform android
+
+# Internal testers
+eas build --profile preview --platform ios
+eas build --profile preview --platform android
+
+# Store binaries (AAB + App Store IPA)
+eas build --profile production --platform ios
+eas build --profile production --platform android
+```
+
+Submit (after the stores are set up on the owner accounts):
+
+```bash
+eas submit --profile production --platform ios
+eas submit --profile production --platform android
+```
+
+Privacy URL in the consoles: `https://statuspass.com/privacy` (fallback `https://statuspass-web.vercel.app/privacy`).
+
+## Env
+
+```
+EXPO_PUBLIC_SITE_URL=https://statuspass.com
+EXPO_PUBLIC_FALLBACK_URL=https://statuspass-web.vercel.app
+EXPO_PUBLIC_SUPABASE_URL=
+EXPO_PUBLIC_SUPABASE_ANON_KEY=
+```
+
+Push tokens still POST to the web API after the student signs in (`/api/push-tokens`).

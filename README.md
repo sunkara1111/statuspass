@@ -17,7 +17,7 @@ Turborepo monorepo.
 | Path | Role |
 |---|---|
 | `apps/web` | Next.js App Router + Tailwind |
-| `apps/mobile` | Expo app — WebView to the live organizer + offline tabs |
+| `apps/mobile` | Expo Router app — clocks, SEVIS, USCIS, H-1B, optional auth |
 | `packages/compliance` | CPT / OPT / STEM day math, I-765 flags, CIP heuristic |
 | `packages/db` | Zod mirrors of SQL enums/tables |
 | `packages/ui` | Tokens + StatusClock, DeadlineCard, PrimaryButton, ChecklistRow, FormProgress |
@@ -52,6 +52,15 @@ Open http://localhost:3000. Landing, clocks, SEVIS wallet, USCIS helper, and H-1
 
 ```bash
 cd apps/mobile && npx expo start
+```
+
+The Expo app is a real organizer (clocks, SEVIS, USCIS, H-1B, optional auth). It is **not** live on the App Store or Play Store. Store listing draft: `docs/STORE_LISTING.md`. EAS:
+
+```bash
+cd apps/mobile
+eas build --profile preview --platform ios
+eas build --profile preview --platform android
+eas build --profile production --platform all
 ```
 
 ## Environment
