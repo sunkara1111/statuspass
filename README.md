@@ -94,11 +94,20 @@ Copy the project URL, anon key, and service role key into `apps/web/.env.local`.
 
 ## Vercel deploy
 
-1. Import `sunkara1111/statuspass` into Vercel.
-2. Framework: Next.js. Install: `pnpm install`. Build: `pnpm turbo run build --filter=@statuspass/web`.
-3. If Vercel asks for a root directory, use the repo root (this `vercel.json`) **or** `apps/web` with “include files outside root directory”.
-4. Set the env vars from `.env.example` on the project. Set `NEXT_PUBLIC_SITE_URL` to the production URL so sitemap / Open Graph resolve.
-5. Deploy. Confirm the landing shows DINESH S in the footer and the three guest clocks before signup.
+One command from the repo root (after `pnpm install` and the Vercel CLI login):
+
+```bash
+npx vercel --prod --yes
+```
+
+Or import `sunkara1111/statuspass` in the Vercel dashboard. This repo’s `vercel.json` already sets install `pnpm install` and build `pnpm turbo run build --filter=@statuspass/web`. Use the **repository root** (not `apps/web` alone).
+
+Then:
+
+1. Project Settings → Environment Variables: paste `.env.example` keys. Set `NEXT_PUBLIC_SITE_URL` to the production URL.
+2. Redeploy if you added env after the first build.
+3. Optional: assign a custom domain. Search Console file is at `/google04d4f9506cc11bf7.html`.
+4. Confirm the landing shows DINESH S in the footer and the three guest clocks before signup. There is no Vercel “powered by” badge in the UI.
 
 ## SEO
 
